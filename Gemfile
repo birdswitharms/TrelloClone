@@ -6,6 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 gem "better_errors"
+gem 'binding_of_caller'
 gem 'annotate'
 gem 'flay'
 gem 'hirb'
@@ -16,6 +17,9 @@ gem 'rails-footnotes', '>= 3.7.5.rc4'
 gem 'rails_best_practices'
 gem 'reek'
 gem 'awesome_print'
+gem 'bcrypt', '~> 3.1.7'
+gem 'jquery-ui-rails'
+gem 'jquery-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.5'
