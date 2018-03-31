@@ -1,7 +1,7 @@
 body {
   font-family: 'Noto Sans', Helvetica, sans-serif;
   margin: 0;
-  background-color: #E1FAF9;
+  background-color: #78FFD6;
 }
 
 nav {
@@ -18,12 +18,16 @@ nav > * {
 }
 
 .new_board {
-  width: 300px;
-  height: 400px;
+  width: 280px;
+  height: 200px;
   border-radius: 5px;
-  background-color: #78FFD6;
+  background-color: #023C40;
   margin-left: 50px;
   margin-top: 25px;
   box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
   transition: 0.2s all
+}
+
+.hidden {
+  visibility: hidden;
 }
