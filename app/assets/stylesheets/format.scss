@@ -1,0 +1,29 @@
+body {
+  font-family: 'Noto Sans', Helvetica, sans-serif;
+  margin: 0;
+  background-color: #E1FAF9;
+}
+
+nav {
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+  background-color: #023C40;
+  box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
+  color: white;
+}
+
+nav > * {
+  margin-left: 15px;
+}
+
+.new_board {
+  width: 300px;
+  height: 400px;
+  border-radius: 5px;
+  background-color: #78FFD6;
+  margin-left: 50px;
+  margin-top: 25px;
+  box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
+  transition: 0.2s all
+}
