@@ -1,6 +1,7 @@
 class BoardsController < ApplicationController
   def index
     @all_boards = current_user.boards
+
   end
 
   def new
@@ -11,8 +12,17 @@ class BoardsController < ApplicationController
     @board = current_user.boards.new(board_params)
 
     if @board.save
+      respond_to do |format|
+        format.html do
+            render :index
+          end
+        format.json do
+          if request.xhr?
+            render json: {board: @board.name}
+          end
+        end
+      end
       puts "** BOARD ** SAVED **"
-      redirect_to root_path
     else
       puts @board.errors.full_messages
     end
