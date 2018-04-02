@@ -1,5 +1,5 @@
 .new_board_btn {
-  width: 280px;
+  min-width: 280px;
   height: 100px;
   border-radius: 5px;
   background-color: #023C40;
@@ -18,7 +18,7 @@
 }
 
 .board_submit {
-  width: 100px;
+  min-width: 100px;
   height: 35px;
   margin-top: 15px;
   background-color: white;
@@ -31,7 +31,7 @@
 }
 
 .board_cancel {
-  width: 100px;
+  min-width: 100px;
   height: 35px;
   background-color: crimson;
   color: white;

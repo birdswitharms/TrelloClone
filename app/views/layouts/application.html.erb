@@ -4,12 +4,16 @@
     <title>TrelloClone</title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
   </head>
 
   <nav>
-    <p>
+    <span class="nav_logo">TrelloClone</span>
+    <% if current_user %>
+    <span class="nav_profile">Welcome <%= current_user.name %></span>
+    <% else %>
+    <div class="nav_login"><p>
       <%= form_tag sessions_path do %>
         <%= label_tag :name%>:
         <%= text_field_tag :name %>
@@ -17,7 +21,8 @@
         <%= password_field_tag :password %>
         <%= submit_tag "Log In" %>
       <% end %>
-    </p>
+    </p></div>
+    <% end %>
   </nav>
 
   <body>

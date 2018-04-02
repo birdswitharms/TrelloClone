@@ -1,17 +1,23 @@
-<div class="new_board_btn">
-  <span class="placement_text">Click here to create a new board!</span>
-</div>
+<div class="container">
 
-<div class="new_board">
-  <span class="placement_text">What should we call this board?</span>
-  <center>
-    <%= form_for :boards do |f| %>
-    <%= f.text_field :name, :class => 'board_input', placeholder: 'ex. Project Name...'  %>
-    <br><div class="board_cancel"><span>cancel</span></div> <%= f.submit :class => 'board_submit' %>
-    <% end %>
-  </center>
-</div>
+  <div class="new_board_btn">
+    <span class="board_text">Click here to create a new board!</span>
+  </div>
 
-<% @all_boards.each do |board| %>
-  <p> <%= board.name %> </p>
-<% end %>
+  <div class="new_board hidden" id='parent_board'>
+    <span class="board_text">What should we call this board?</span>
+    <center>
+      <%= form_for :boards, html: {id: 'board_form'} do |f| %>
+      <%= f.text_field :name, :class => 'board_input', placeholder: 'ex. Project Name...'  %>
+      <br><div class="board_cancel"><span>cancel</span></div> <%= f.submit :class => 'board_submit' %>
+      <% end %>
+    </center>
+  </div>
+
+  <% @all_boards.each do |board| %>
+    <div class="board">
+      <span class="board_text"><%= board.name %></span>
+    </div>
+  <% end %>
+
+</div>
