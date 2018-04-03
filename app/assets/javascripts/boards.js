@@ -8,8 +8,13 @@ const boardParent = document.querySelector('#parent_board');
 const container = document.querySelector('.container');
 const boardCancel = document.querySelector('.board_cancel');
 const boardInput = document.querySelector('#board_form');
+const taskBtn = document.querySelectorAll('.task_btn')
 
 newBoardBtn.addEventListener('click', createBoard);
+
+for (var i = 0; i < taskBtn.length; i++) {
+  taskBtn[i].addEventListener('click', createTask)
+}
 
 function cancelBoard() {
   const thisBoard = this.parentNode.parentNode.parentNode
@@ -18,9 +23,14 @@ function cancelBoard() {
 
 function createTask() {
   const taskInput = document.createElement('input');
-  $(taskInput).addClass('board_input');
+  const taskSubmit = document.createElement('input');
+  taskSubmit.type = 'submit'
+  $(taskSubmit).addClass('task_submit')
+  $(taskInput).addClass('task_input');
+  console.dir(this.parentNode.children);
   const taskDiv = this.parentNode.children[1];
   taskDiv.appendChild(taskInput);
+  taskDiv.appendChild(taskSubmit);
 }
 
 function createBoard() {
