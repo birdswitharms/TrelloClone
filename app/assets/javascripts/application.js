@@ -13,4 +13,5 @@
 //= require jquery
 //= require rails-ujs
 //= require jquery-ui
+//= require semantic
 //= require_tree .

@@ -19,7 +19,7 @@ nav > * {
 }
 
 .new_board {
-  min-width: 280px;
+  min-width: 325px;
   height: 200px;
   border-radius: 5px;
   background-color: #023C40;
@@ -35,7 +35,7 @@ nav > * {
 }
 
 .board {
-  min-width: 280px;
+  min-width: 325px;
   height: 200px;
   border-radius: 5px;
   background-color: #023C40;
@@ -49,4 +49,14 @@ nav > * {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.task_div {
+  margin-top: 20px;
+  margin-left: 25px;
+  max-width: 300px;
+}
+
+.task_div div {
+  margin-bottom: 10px;
 }

@@ -8,7 +8,7 @@ const boardParent = document.querySelector('#parent_board');
 const container = document.querySelector('.container');
 const boardCancel = document.querySelector('.board_cancel');
 const boardInput = document.querySelector('#board_form');
-const taskBtn = document.querySelectorAll('.task_btn')
+const taskBtn = document.querySelectorAll('#new_task_btn')
 
 newBoardBtn.addEventListener('click', createBoard);
 
@@ -22,15 +22,22 @@ function cancelBoard() {
 }
 
 function createTask() {
-  const taskInput = document.createElement('input');
-  const taskSubmit = document.createElement('input');
-  taskSubmit.type = 'submit'
-  $(taskSubmit).addClass('task_submit')
-  $(taskInput).addClass('task_input');
-  console.dir(this.parentNode.children);
+  const taskAction = document.createElement('div')
+  const taskInputBtn = document.createElement('button')
+  const taskInput = document.createElement('input')
   const taskDiv = this.parentNode.children[1];
-  taskDiv.appendChild(taskInput);
-  taskDiv.appendChild(taskSubmit);
+  $(taskInputBtn).addClass('ui button')
+  $(taskAction).addClass('ui action input')
+  taskInput.type = 'text'
+  taskInput.placeholder = 'Task...'
+  taskBtn.innerText = 'New Task'
+  taskInputBtn.innerText = 'Add Task'
+  taskAction.appendChild(taskInput);
+  taskAction.appendChild(taskInputBtn);
+  taskDiv.appendChild(taskAction);
+  const boardDivHeight = taskDiv.parentElement.offsetHeight
+  console.log(boardDivHeight);
+  taskDiv.parentElement.style.height = (boardDivHeight + 47) + 'px'
 }
 
 function createBoard() {
@@ -48,17 +55,26 @@ function createBoard() {
   }).done(function(responseData) {   // ajax request creates the board with the proper board name
       const boardDiv = document.createElement('div')
       const boardSpan = document.createElement('span')
-      const taskBtn = document.createElement('div')
+      const taskBtn = document.createElement('button')
       const taskDiv = document.createElement('div')
-      const taskSpan = document.createElement('span')
+      const taskAction = document.createElement('div')
+      const taskInputBtn = document.createElement('button')
+      const taskInput = document.createElement('input')
+      $(taskInputBtn).addClass('ui button')
       $(boardDiv).addClass('board')
+      $(taskAction).addClass('ui action input')
       $(boardSpan).addClass('board_text')
       $(taskDiv).addClass('task_div')
-      $(taskBtn).addClass('task_btn')
-      $(taskSpan).addClass('btn_text')
-      taskSpan.innerText = 'new task'
+      $(taskBtn).addClass('ui button')
+      $(taskBtn).attr('id', 'new_task_btn');
+      taskInput.type = 'text'
+      taskInput.placeholder = 'Task...'
+      taskBtn.innerText = 'New Task'
+      taskInputBtn.innerText = 'Add Task'
       boardSpan.innerText = responseData.board
-      taskBtn.appendChild(taskSpan);
+      taskDiv.appendChild(taskAction)
+      taskAction.appendChild(taskInput)
+      taskAction.appendChild(taskInputBtn)
       boardDiv.appendChild(boardSpan)
       boardDiv.appendChild(taskDiv)
       boardDiv.appendChild(taskBtn)

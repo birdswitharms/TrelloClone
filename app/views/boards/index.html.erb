@@ -8,8 +8,10 @@
     <span class="board_text">What should we call this board?</span>
     <center>
       <%= form_for :boards do |f| %>
-      <%= f.text_field :name, :class => 'board_input', placeholder: 'ex. Project Name...'  %>
-      <br><div class="board_cancel"><span class="btn_text">cancel</span></div> <%= f.submit :class => 'board_submit' %>
+      <div class="ui input" id="board_name">
+        <%= f.text_field :name, placeholder: 'ex. Project Name...'  %>
+      </div>
+      <br><button class="negative ui button">CANCEL</button> <%= f.submit :class => 'positive ui button' %>
       <% end %>
     </center>
   </div>
@@ -17,9 +19,14 @@
   <% @all_boards.each do |board| %>
     <div class="board">
       <span class="board_text"><%= board.name %></span>
-      <div class="task_div"></div>
-      <i class="fas fa-cog"></i>
-      <div class="task_btn"><span class="btn_text">new task</span></div>
+
+      <div class="task_div">
+        <div class="ui action input">
+          <input type="text" placeholder="Task...">
+          <button class="ui button">Add Task</button>
+        </div>
+      </div>
+      <button class="ui button" id="new_task_btn">New Task</button>
     </div>
   <% end %>
 
