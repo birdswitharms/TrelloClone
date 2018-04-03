@@ -91,6 +91,8 @@ GEM
       path_expander (~> 1.0)
       ruby_parser (~> 3.0)
       sexp_processor (~> 4.0)
+    font-awesome-rails (4.7.0.3)
+      railties (>= 3.2, < 5.2)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     hirb (0.7.3)
@@ -241,6 +243,7 @@ DEPENDENCIES
   byebug
   capybara (~> 2.13)
   flay
+  font-awesome-rails
   hirb
   jbuilder (~> 2.5)
   jquery-rails
