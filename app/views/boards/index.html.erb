@@ -1,7 +1,7 @@
 <div class="container">
 
   <div class="new_board_btn">
-    <span class="board_text">Click here to create a new board!</span>
+    <span class="new_board_btn_text">Click here to create a new board!</span>
   </div>
 
   <div class="new_board hidden" id='parent_board'>
@@ -23,27 +23,29 @@
       <div class="task_list">
         <% board.task.each do |task| %>
         <div class="ui labeled input">
+          <%= form_for :task, :url => url_for(:controller => 'tasks', :action => 'update', id: task.id), method: :patch, :html => {:class => 'ui labeled input'} do |f| %>
           <div class="ui checkbox">
             <% if task.completed == false %>
-            <input type="checkbox">
+            <%= f.check_box("task", {}, "true", "false") %>
             <label></label>
             <% else %>
-            <input type="checkbox" checked="true">
+            <%= f.check_box(:task, {}, "true", "false") %>
             <label></label>
             <% end %>
           </div>
           <div class="ui label">
-            <%= form_tag({controller: "task", action: "update"}, method: "patch") %>
-            <input type="hidden" name="name" value="<%= task.name %>">
             <%= task.name %>
           </div>
-          <input required="" type="text" class="form-control" placeholder="Deadline" onfocus="(this.type='date')"/>
+          <input required="" type="text" name="datepicker" class="form-control" placeholder="Deadline" onfocus="(this.type='date')"/>
         </div>
+        <%= f.submit %>
+        <% end %>
+
         <% end %>
       </div>
       <div class="task_div">
         <div class="ui action input">
-          <%= form_for(:task, url: task_index_path) do |f| %>
+          <%= form_for(:task, url: tasks_path) do |f| %>
             <input type="text" placeholder="Task..." name="name">
             <button class="ui button">Add Task</button>
             <input type="hidden" name="board_id" value="<%= board.id %>">

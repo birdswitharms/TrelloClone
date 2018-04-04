@@ -1,4 +1,4 @@
-class TaskController < ApplicationController
+class TasksController < ApplicationController
 
   def index
 
@@ -32,7 +32,7 @@ class TaskController < ApplicationController
   end
 
   def update
-    puts params
+    puts "*"*20
   end
 
   def edit
