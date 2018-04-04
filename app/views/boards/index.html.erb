@@ -19,14 +19,20 @@
   <% @all_boards.each do |board| %>
     <div class="board">
       <span class="board_text"><%= board.name %></span>
-
+      <div class="task_list">
+        <% board.task.each do |task| %>
+        <span class="board_text"><%= task.name %></span>
+        <% end %>
+      </div>  
       <div class="task_div">
         <div class="ui action input">
-          <input type="text" placeholder="Task...">
-          <button class="ui button">Add Task</button>
+          <%= form_for(:task, url: task_index_path) do |f| %>
+            <input type="text" placeholder="Task..." name="name">
+            <button class="ui button">Add Task</button>
+            <input type="hidden" name="board_id" value="<%= board.id %>">
+          <% end %>
         </div>
       </div>
-      <button class="ui button" id="new_task_btn">New Task</button>
     </div>
   <% end %>
 

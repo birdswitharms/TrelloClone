@@ -8,36 +8,38 @@ const boardParent = document.querySelector('#parent_board');
 const container = document.querySelector('.container');
 const boardCancel = document.querySelector('.board_cancel');
 const boardInput = document.querySelector('#board_form');
-const taskBtn = document.querySelectorAll('#new_task_btn')
+const allTaskForms = document.querySelectorAll('.task_div')
+
+
+for (var i = 0; i < allTaskForms.length; i++) {
+  allTaskForms[i].children[0].children[0].addEventListener('submit', function(event) {
+    event.preventDefault();
+    const form = this
+    // console.log(this.children[2]);
+    $.ajax({
+      url: '/task',
+      type: 'POST',
+      data: $(form).serialize(),
+      dataType: 'json'
+    }).done(function(responseData) {
+      const taskSpan = document.createElement('span')
+      const boardDiv = event.path[3].children[1]
+      console.log(event);
+      $(taskSpan).addClass('board_text')
+      taskSpan.innerText = responseData.task
+      boardDiv.appendChild(taskSpan)
+    }).fail(function(_jqXHR, textStatus, errorThrown) {
+      console.log(textStatus);
+      console.log(errorThrown);
+    })
+  });
+}
 
 newBoardBtn.addEventListener('click', createBoard);
-
-for (var i = 0; i < taskBtn.length; i++) {
-  taskBtn[i].addEventListener('click', createTask)
-}
 
 function cancelBoard() {
   const thisBoard = this.parentNode.parentNode.parentNode
   $(thisBoard).replaceWith(newBoardBtn);
-}
-
-function createTask() {
-  const taskAction = document.createElement('div')
-  const taskInputBtn = document.createElement('button')
-  const taskInput = document.createElement('input')
-  const taskDiv = this.parentNode.children[1];
-  $(taskInputBtn).addClass('ui button')
-  $(taskAction).addClass('ui action input')
-  taskInput.type = 'text'
-  taskInput.placeholder = 'Task...'
-  taskBtn.innerText = 'New Task'
-  taskInputBtn.innerText = 'Add Task'
-  taskAction.appendChild(taskInput);
-  taskAction.appendChild(taskInputBtn);
-  taskDiv.appendChild(taskAction);
-  const boardDivHeight = taskDiv.parentElement.offsetHeight
-  console.log(boardDivHeight);
-  taskDiv.parentElement.style.height = (boardDivHeight + 47) + 'px'
 }
 
 function createBoard() {
