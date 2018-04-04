@@ -9,7 +9,16 @@ const container = document.querySelector('.container');
 const boardCancel = document.querySelector('.board_cancel');
 const boardInput = document.querySelector('#board_form');
 const allTaskForms = document.querySelectorAll('.task_div')
+const datePickers = document.querySelectorAll('.form-control')
 
+console.log(datePickers);
+
+for (var i = 0; i < datePickers.length; i++) {
+  datePickers[i].addEventListener('change', function(event) {
+    const changedDate = event.target.value
+    
+  })
+}
 
 for (var i = 0; i < allTaskForms.length; i++) {
   allTaskForms[i].children[0].children[0].addEventListener('submit', function(event) {

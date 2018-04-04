@@ -31,10 +31,22 @@ class TaskController < ApplicationController
     end
   end
 
+  def update
+    puts params
+  end
+
+  def edit
+    puts params
+  end
+
   private
 
   def task_params
     params.require(:tasks).permit(:name, :board_id)
+  end
+
+  def find_task
+
   end
 
 end
