@@ -11,14 +11,20 @@ const boardInput = document.querySelector('#board_form');
 const allTaskForms = document.querySelectorAll('.task_div')
 const datePickers = document.querySelectorAll('.form-control')
 
-console.log(datePickers);
 
 for (var i = 0; i < datePickers.length; i++) {
+  datePickers[i].addEventListener('click', function(event) {
+    this.type = 'date';
+    const currentDate = this.nextElementSibling.value
+    this.value = `${currentDate}`
+  });
   datePickers[i].addEventListener('change', function(event) {
     const changedDate = event.target.value
-    
-  })
-}
+    // $.ajax({
+    //   url: '/tasks'
+    // })
+  });
+};
 
 for (var i = 0; i < allTaskForms.length; i++) {
   allTaskForms[i].children[0].children[0].addEventListener('submit', function(event) {
@@ -26,7 +32,7 @@ for (var i = 0; i < allTaskForms.length; i++) {
     const form = this
     // console.log(this.children[2]);
     $.ajax({
-      url: '/task',
+      url: '/tasks',
       type: 'POST',
       data: $(form).serialize(),
       dataType: 'json'

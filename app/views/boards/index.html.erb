@@ -26,17 +26,18 @@
           <%= form_for :task, :url => url_for(:controller => 'tasks', :action => 'update', id: task.id), method: :patch, :html => {:class => 'ui labeled input'} do |f| %>
           <div class="ui checkbox">
             <% if task.completed == false %>
-            <%= f.check_box("task", {}, "true", "false") %>
+            <%= f.check_box(:completed, {}, "true", "false") %>
             <label></label>
             <% else %>
-            <%= f.check_box(:task, {}, "true", "false") %>
+            <%= f.check_box(:completed, {:checked => true}, "true", "false") %>
             <label></label>
             <% end %>
           </div>
           <div class="ui label">
             <%= task.name %>
           </div>
-          <input required="" type="text" name="datepicker" class="form-control" placeholder="Deadline" onfocus="(this.type='date')"/>
+          <input type="text" name="datepicker" class="form-control" placeholder="Deadline" />
+          <input type="hidden" name="date" value="<%= task.deadline.strftime("%Y-%m-%d") %>">
         </div>
         <%= f.submit %>
         <% end %>

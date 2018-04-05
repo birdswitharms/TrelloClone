@@ -1,5 +1,7 @@
 class TasksController < ApplicationController
 
+  before_action :find_task, only: [:update]
+
   def index
 
   end
@@ -32,6 +34,19 @@ class TasksController < ApplicationController
   end
 
   def update
+    @task.update(completed: params[:task][:completed], deadline: params[:datepicker])
+
+    puts "*"*20
+    respond_to do |format|
+      format.html do
+        redirect_to root_path
+        end
+      format.json do
+        if request.xhr?
+          render json: {completed: params[:task][:completed], date: params[:datepicker]}
+        end
+      end
+    end
     puts "*"*20
   end
 
@@ -46,7 +61,7 @@ class TasksController < ApplicationController
   end
 
   def find_task
-
+    @task = Task.find(params[:id])
   end
 
 end
