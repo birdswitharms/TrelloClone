@@ -68,6 +68,8 @@ for (var i = 0; i < datePickers.length; i++) {
   });
 };
 
+// <input type="hidden" name="authenticity_token" value="l0tnZR92GLzRbGJswM9noTI68Z88jwN/zImWIhN25vM5/wDbhfBTMkB6WoJpa9/wkfKx7Ruhd8lwqogwOPsnAg==">
+
 for (var i = 0; i < allTaskForms.length; i++) {
   allTaskForms[i].children[0].children[0].addEventListener('submit', function(event) {
     event.preventDefault();
@@ -79,12 +81,66 @@ for (var i = 0; i < allTaskForms.length; i++) {
       data: $(form).serialize(),
       dataType: 'json'
     }).done(function(responseData) {
-      const taskSpan = document.createElement('span')
+      const auth_token = form.children[1].value
       const boardDiv = event.path[3].children[1]
-      console.log(event);
-      $(taskSpan).addClass('board_text')
-      taskSpan.innerText = responseData.task
-      boardDiv.appendChild(taskSpan)
+      const parentDiv = document.createElement('div')
+      const parentForm = document.createElement('form')
+      const utf8 = document.createElement('input')
+      const method = document.createElement('input')
+      const auth = document.createElement('input')
+      const checkboxDiv = document.createElement('div')
+      const checkboxInput = document.createElement('input')
+      const checkbox = document.createElement('input')
+      const emptyLabel = document.createElement('label')
+      const taskNameDiv = document.createElement('div')
+      const datePicker = document.createElement('input')
+      const dateHidden = document.createElement('input')
+      dateHidden.type = 'hidden'
+      dateHidden.name = 'date'
+      dateHidden.value = ""
+      datePicker.type = 'text'
+      datePicker.name = 'datepicker'
+      datePicker.placeholder = 'Deadline'
+      taskNameDiv.innerText = responseData.task
+      checkbox.type = 'checkbox'
+      checkbox.value = 'true'
+      checkbox.id = 'task_completed'
+      checkbox.name = 'task[completed]'
+      checkboxInput.name = 'task[completed]'
+      checkboxInput.type = 'hidden'
+      checkboxInput.value = 'false'
+      auth.type = 'hidden'
+      auth.name = 'authenticity_token'
+      auth.value = auth_token
+      method.type = 'hidden'
+      method.name = '_method'
+      method.value = 'patch'
+      utf8.type = 'hidden'
+      utf8.value = '✓'
+
+      $(parentForm).addClass('ui labeled input')
+      $(parentDiv).addClass('ui labeled input')
+      $(checkboxDiv).addClass('ui checkbox')
+      $(taskNameDiv).addClass('ui label')
+      $(datePicker).addClass('form-control')
+
+      // appends after everything is complete
+      checkboxDiv.appendChild(checkboxInput)
+      checkboxDiv.appendChild(checkbox)
+      checkboxDiv.appendChild(emptyLabel)
+
+      parentDiv.appendChild(parentForm)
+      parentForm.appendChild(auth)
+      parentForm.appendChild(utf8)
+      parentForm.appendChild(method)
+
+      parentForm.appendChild(checkboxDiv)
+      parentForm.appendChild(taskNameDiv)
+      parentForm.appendChild(datePicker)
+      parentForm.appendChild(dateHidden)
+
+      boardDiv.appendChild(parentDiv)
+
     }).fail(function(_jqXHR, textStatus, errorThrown) {
       console.log(textStatus);
       console.log(errorThrown);
