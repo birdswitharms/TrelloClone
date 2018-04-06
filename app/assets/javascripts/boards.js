@@ -23,10 +23,13 @@ for (var i = 0; i < checkboxes.length; i++) {
       data: {task: {completed: checkbox}},
       dataType: 'JSON'
     }).done(function(responseData) {
-      if (checkbox) {
-        const label = checkbox.parentElement.nextElementSibling
+      const label = event.target.parentElement.parentElement.children[4]
+      if (event.target.checked == true) {
         label.style.backgroundColor = 'Aquamarine'
+      } else {
+        label.style.backgroundColor = '#E8E8E8'
       }
+
     }).fail(function(_jqXHR, textStatus, errorThrown) {
       console.log(textStatus);
       console.log(errorThrown);
