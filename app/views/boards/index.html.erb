@@ -37,9 +37,8 @@
             <%= task.name %>
           </div>
           <input type="text" name="datepicker" class="form-control" placeholder="Deadline" />
-          <input type="hidden" name="date" value="<%= task.deadline.strftime("%Y-%m-%d") %>">
+          <input type="hidden" name="date" value="<%= task.deadline.strftime("%Y-%m-%d") unless task.deadline.nil?  %>">
         </div>
-        <%= f.submit %>
         <% end %>
 
         <% end %>

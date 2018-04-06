@@ -10,7 +10,33 @@ const boardCancel = document.querySelector('.board_cancel');
 const boardInput = document.querySelector('#board_form');
 const allTaskForms = document.querySelectorAll('.task_div')
 const datePickers = document.querySelectorAll('.form-control')
+const checkboxes = document.querySelectorAll('#task_completed')
 
+for (var i = 0; i < checkboxes.length; i++) {
+  checkboxes[i].addEventListener('change', function(event) {
+    event.preventDefault()
+    const checkbox = this.checked
+    const url = event.target.form.action
+    $.ajax({
+      url: url,
+      type: 'PATCH',
+      data: {task: {completed: checkbox}},
+      dataType: 'JSON'
+    }).done(function(responseData) {
+      if (checkbox) {
+        const label = checkbox.parentElement.nextElementSibling
+        label.style.backgroundColor = 'Aquamarine'
+      }
+    }).fail(function(_jqXHR, textStatus, errorThrown) {
+      console.log(textStatus);
+      console.log(errorThrown);
+    })
+  })
+  if (checkboxes[i].checked) {
+    const label = checkboxes[i].parentElement.nextElementSibling
+    label.style.backgroundColor = 'Aquamarine'
+  }
+}
 
 for (var i = 0; i < datePickers.length; i++) {
   datePickers[i].addEventListener('click', function(event) {
@@ -20,9 +46,22 @@ for (var i = 0; i < datePickers.length; i++) {
   });
   datePickers[i].addEventListener('change', function(event) {
     const changedDate = event.target.value
-    // $.ajax({
-    //   url: '/tasks'
-    // })
+    const checkbox = event.target.parentElement.parentElement.children[0][4].value;
+    const url = event.target.parentElement.action
+    event.preventDefault()
+    $.ajax({
+      url: url,
+      type: 'PATCH',
+      data: {datepicker: changedDate, task: {completed: checkbox}},
+      dataType: 'JSON'
+    }).done(function(responseData) {
+      const changeDate = Object.keys(responseData)[0]
+      const hiddenForm = event.target.nextElementSibling
+      hiddenForm.value = `${changedDate}`
+    }).fail(function(_jqXHR, textStatus, errorThrown) {
+      console.log(textStatus);
+      console.log(errorThrown);
+    })
   });
 };
 

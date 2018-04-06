@@ -43,7 +43,7 @@ class TasksController < ApplicationController
         end
       format.json do
         if request.xhr?
-          render json: {completed: params[:task][:completed], date: params[:datepicker]}
+          render json: params
         end
       end
     end
