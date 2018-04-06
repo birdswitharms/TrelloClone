@@ -22,7 +22,7 @@
       <span class="board_text"><%= board.name %></span>
       <div class="task_list">
         <% board.task.each do |task| %>
-        <div class="ui labeled input">
+        <div class="ui labeled input ui-state-default">
           <%= form_for :task, :url => url_for(:controller => 'tasks', :action => 'update', id: task.id), method: :patch, :html => {:class => 'ui labeled input'} do |f| %>
           <div class="ui checkbox">
             <% if task.completed == false %>

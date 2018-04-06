@@ -8,6 +8,13 @@ const boardInput = document.querySelector('#board_form');
 const allTaskForms = document.querySelectorAll('.task_div')
 const datePickers = document.querySelectorAll('.form-control')
 const checkboxes = document.querySelectorAll('#task_completed')
+const taskList = document.querySelectorAll('.task_list')
+
+// making tasks draggable/droppable
+$(function(event) {
+    $( taskList ).sortable()
+    $( taskList ).disableSelection();
+  });
 
 for (var i = 0; i < checkboxes.length; i++) {
   checkboxes[i].addEventListener('change', function(event) {
@@ -117,7 +124,7 @@ for (var i = 0; i < allTaskForms.length; i++) {
       utf8.value = '✓'
 
       $(parentForm).addClass('ui labeled input')
-      $(parentDiv).addClass('ui labeled input')
+      $(parentDiv).addClass('ui labeled input ui-state-default')
       $(checkboxDiv).addClass('ui checkbox')
       $(taskNameDiv).addClass('ui label')
       $(datePicker).addClass('form-control')
