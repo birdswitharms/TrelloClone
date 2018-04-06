@@ -21,7 +21,7 @@ class TasksController < ApplicationController
           end
         format.json do
           if request.xhr?
-            render json: {task: @task.name}
+            render json: {task: @task.name, id: @task.id}
           end
         end
       end

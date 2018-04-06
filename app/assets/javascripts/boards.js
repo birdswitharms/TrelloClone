@@ -1,6 +1,3 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
-
 document.addEventListener('DOMContentLoaded', function(e) {
 
 const newBoardBtn = document.querySelector('.new_board_btn');
@@ -29,7 +26,6 @@ for (var i = 0; i < checkboxes.length; i++) {
       } else {
         label.style.backgroundColor = '#E8E8E8'
       }
-
     }).fail(function(_jqXHR, textStatus, errorThrown) {
       console.log(textStatus);
       console.log(errorThrown);
@@ -68,8 +64,6 @@ for (var i = 0; i < datePickers.length; i++) {
   });
 };
 
-// <input type="hidden" name="authenticity_token" value="l0tnZR92GLzRbGJswM9noTI68Z88jwN/zImWIhN25vM5/wDbhfBTMkB6WoJpa9/wkfKx7Ruhd8lwqogwOPsnAg==">
-
 for (var i = 0; i < allTaskForms.length; i++) {
   allTaskForms[i].children[0].children[0].addEventListener('submit', function(event) {
     event.preventDefault();
@@ -95,6 +89,9 @@ for (var i = 0; i < allTaskForms.length; i++) {
       const taskNameDiv = document.createElement('div')
       const datePicker = document.createElement('input')
       const dateHidden = document.createElement('input')
+      parentForm.action = '/tasks/'+responseData.id
+      parentForm.acceptCharset = 'UTF-8'
+      parentForm.method = 'post'
       dateHidden.type = 'hidden'
       dateHidden.name = 'date'
       dateHidden.value = ""
@@ -116,6 +113,7 @@ for (var i = 0; i < allTaskForms.length; i++) {
       method.name = '_method'
       method.value = 'patch'
       utf8.type = 'hidden'
+      utf8.name = 'utf8'
       utf8.value = '✓'
 
       $(parentForm).addClass('ui labeled input')
@@ -123,16 +121,40 @@ for (var i = 0; i < allTaskForms.length; i++) {
       $(checkboxDiv).addClass('ui checkbox')
       $(taskNameDiv).addClass('ui label')
       $(datePicker).addClass('form-control')
-
+      // event listeners
+      datePicker.addEventListener('click', function(event) {
+        this.type = 'date';
+        const currentDate = this.nextElementSibling.value
+        this.value = `${currentDate}`
+      });
+      datePicker.addEventListener('change', function(event) {
+        const changedDate = event.target.value
+        const checkbox = event.target.parentElement.parentElement.children[0][4].value;
+        const url = event.target.parentElement.action
+        event.preventDefault()
+        $.ajax({
+          url: url,
+          type: 'PATCH',
+          data: {datepicker: changedDate, task: {completed: checkbox}},
+          dataType: 'JSON'
+        }).done(function(responseData) {
+          const changeDate = Object.keys(responseData)[0]
+          const hiddenForm = event.target.nextElementSibling
+          hiddenForm.value = `${changedDate}`
+        }).fail(function(_jqXHR, textStatus, errorThrown) {
+          console.log(textStatus);
+          console.log(errorThrown);
+        })
+      });
       // appends after everything is complete
       checkboxDiv.appendChild(checkboxInput)
       checkboxDiv.appendChild(checkbox)
       checkboxDiv.appendChild(emptyLabel)
 
       parentDiv.appendChild(parentForm)
-      parentForm.appendChild(auth)
       parentForm.appendChild(utf8)
       parentForm.appendChild(method)
+      parentForm.appendChild(auth)
 
       parentForm.appendChild(checkboxDiv)
       parentForm.appendChild(taskNameDiv)
@@ -140,6 +162,29 @@ for (var i = 0; i < allTaskForms.length; i++) {
       parentForm.appendChild(dateHidden)
 
       boardDiv.appendChild(parentDiv)
+
+      checkbox.addEventListener('change', function(event) {
+        event.preventDefault()
+        const checkbox = this.checked
+        const url = event.target.form.action
+        $.ajax({
+          url: url,
+          type: 'PATCH',
+          data: {task: {completed: checkbox}},
+          dataType: 'JSON'
+        }).done(function(responseData) {
+          const label = event.target.parentElement.parentElement.children[4]
+          if (event.target.checked == true) {
+            label.style.backgroundColor = 'Aquamarine'
+          } else {
+            label.style.backgroundColor = '#E8E8E8'
+          }
+        }).fail(function(_jqXHR, textStatus, errorThrown) {
+          console.log(textStatus);
+          console.log(errorThrown);
+        })
+      })
+
 
     }).fail(function(_jqXHR, textStatus, errorThrown) {
       console.log(textStatus);
