@@ -16,7 +16,24 @@ for (var i = 0; i < boardCloseButtons.length; i++) {
 }
 
 function deleteBoard(event) {
-  console.dir(event.path[1]);
+  const boardID = event.path[1].children[3].children[0].firstElementChild[4].value;
+  const areYouSure = confirm('This will delete your board, do you wish to continue?')
+  if (areYouSure === true) {
+    console.log('You deleted the board');
+    const url =
+    $.ajax({
+      url: 'localhost:3000/boards/'+boardID,
+      type: 'DELETE',
+    }).done(function(responseData) {
+      console.log(responseData);
+    }).fail(function(_jqXHR, textStatus, errorThrown) {
+      console.log(textStatus);
+      console.log(errorThrown);
+    })
+  } else {
+    console.log('You did not delete the board');
+  }
+
 }
 
 // making tasks draggable/droppable
