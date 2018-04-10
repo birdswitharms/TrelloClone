@@ -20,9 +20,8 @@ function deleteBoard(event) {
   const areYouSure = confirm('This will delete your board, do you wish to continue?')
   if (areYouSure === true) {
     console.log('You deleted the board');
-    const url =
     $.ajax({
-      url: 'localhost:3000/boards/'+boardID,
+      url: 'http://localhost:3000/boards/'+boardID,
       type: 'DELETE',
     }).done(function(responseData) {
       console.log(responseData);
@@ -42,17 +41,19 @@ $(function(event) {
     $( taskList ).disableSelection();
   });
 
+// calling ajax to check if the task is completed or not
 for (var i = 0; i < checkboxes.length; i++) {
   checkboxes[i].addEventListener('change', function(event) {
     event.preventDefault()
     const checkbox = this.checked
     const url = event.target.form.action
+    console.log(url);
     $.ajax({
       url: url,
       type: 'PATCH',
       data: {task: {completed: checkbox}},
       dataType: 'JSON'
-    }).done(function(responseData) {
+    }).done(function(responseData) { // setting the task label to green if completed or grey if not completed
       const label = event.target.parentElement.parentElement.children[4]
       if (event.target.checked == true) {
         label.style.backgroundColor = 'Aquamarine'
@@ -70,6 +71,7 @@ for (var i = 0; i < checkboxes.length; i++) {
   }
 }
 
+// add click event to change deadline placeholder text to html5 date field
 for (var i = 0; i < datePickers.length; i++) {
   datePickers[i].addEventListener('click', function(event) {
     this.type = 'date';
@@ -77,6 +79,7 @@ for (var i = 0; i < datePickers.length; i++) {
     this.value = `${currentDate}`
   });
   datePickers[i].addEventListener('change', function(event) {
+    // ajax call once a deadline date has been selected
     const changedDate = event.target.value
     const checkbox = event.target.parentElement.parentElement.children[0][4].value;
     const url = event.target.parentElement.action
@@ -87,6 +90,7 @@ for (var i = 0; i < datePickers.length; i++) {
       data: {datepicker: changedDate, task: {completed: checkbox}},
       dataType: 'JSON'
     }).done(function(responseData) {
+      // sets the date to the correct date picked
       const changeDate = Object.keys(responseData)[0]
       const hiddenForm = event.target.nextElementSibling
       hiddenForm.value = `${changedDate}`
@@ -101,7 +105,7 @@ for (var i = 0; i < allTaskForms.length; i++) {
   allTaskForms[i].children[0].children[0].addEventListener('submit', function(event) {
     event.preventDefault();
     const form = this
-    // console.log(this.children[2]);
+    // create ajax call when creating a new task
     $.ajax({
       url: '/tasks',
       type: 'POST',
@@ -154,6 +158,7 @@ for (var i = 0; i < allTaskForms.length; i++) {
       $(checkboxDiv).addClass('ui checkbox')
       $(taskNameDiv).addClass('ui label')
       $(datePicker).addClass('form-control')
+      
       // event listeners
       datePicker.addEventListener('click', function(event) {
         this.type = 'date';

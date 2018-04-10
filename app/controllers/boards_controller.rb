@@ -1,7 +1,8 @@
 class BoardsController < ApplicationController
+  before_action :load_board, only: [:destroy]
+
   def index
     @all_boards = current_user.boards
-
   end
 
   def new
@@ -31,8 +32,17 @@ class BoardsController < ApplicationController
   def update
   end
 
-  def delete
+  def destroy
+    if @board.destroy
+      puts "*"*20
+      @board.task.delete_all
+      puts "#{@board}"
+      puts "*"*20
+    end
+
+
   end
+
 
   private
 
