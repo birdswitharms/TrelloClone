@@ -9,6 +9,15 @@ const allTaskForms = document.querySelectorAll('.task_div')
 const datePickers = document.querySelectorAll('.form-control')
 const checkboxes = document.querySelectorAll('#task_completed')
 const taskList = document.querySelectorAll('.task_list')
+const boardCloseButtons = document.querySelectorAll('.close')
+
+for (var i = 0; i < boardCloseButtons.length; i++) {
+  boardCloseButtons[i].addEventListener('click', deleteBoard)
+}
+
+function deleteBoard(event) {
+  console.dir(event.path[1]);
+}
 
 // making tasks draggable/droppable
 $(function(event) {
