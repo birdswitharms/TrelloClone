@@ -17,6 +17,7 @@ for (var i = 0; i < boardCloseButtons.length; i++) {
 
 function deleteBoard(event) {
   const boardID = event.path[1].children[3].children[0].firstElementChild[4].value;
+  const board = event.path[1]
   const areYouSure = confirm('This will delete your board, do you wish to continue?')
   if (areYouSure === true) {
     console.log('You deleted the board');
@@ -24,7 +25,7 @@ function deleteBoard(event) {
       url: 'http://localhost:3000/boards/'+boardID,
       type: 'DELETE',
     }).done(function(responseData) {
-      console.log(responseData);
+      $(board).remove();
     }).fail(function(_jqXHR, textStatus, errorThrown) {
       console.log(textStatus);
       console.log(errorThrown);
@@ -158,7 +159,7 @@ for (var i = 0; i < allTaskForms.length; i++) {
       $(checkboxDiv).addClass('ui checkbox')
       $(taskNameDiv).addClass('ui label')
       $(datePicker).addClass('form-control')
-      
+
       // event listeners
       datePicker.addEventListener('click', function(event) {
         this.type = 'date';
@@ -278,7 +279,6 @@ function createBoard() {
       boardDiv.appendChild(taskBtn)
       container.appendChild(boardDiv)
       $(clone).replaceWith(newBoardBtn);
-      taskBtn.addEventListener('click', createTask)
     }).fail(function(_jqXHR, textStatus, errorThrown) {
       console.log(textStatus);
       console.log(errorThrown);
