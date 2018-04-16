@@ -55,3 +55,12 @@
   right: -375px;
   color: white;
 }
+
+input[type="submit"], input[type="text"], input[type="password"] {
+  color: black;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+  border: 1px solid lightgrey;
+  border-radius: 6px;
+}

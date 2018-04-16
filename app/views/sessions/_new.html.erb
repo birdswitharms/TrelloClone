@@ -6,6 +6,6 @@
      <%= label_tag :password %><br />
      <%= password_field_tag :password %>
   </p><p>
-    <%= submit_tag "Log In" %>
+    <%= submit_tag "Login", data: { disable_with: "Please wait.." } %>
   </p>
 <% end %>

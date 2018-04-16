@@ -2,7 +2,9 @@ class BoardsController < ApplicationController
   before_action :load_board, only: [:destroy]
 
   def index
-    @all_boards = current_user.boards
+    if current_user
+      @all_boards = current_user.boards
+    end
   end
 
   def new

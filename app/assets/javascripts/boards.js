@@ -254,30 +254,19 @@ function createBoard() {
   }).done(function(responseData) {   // ajax request creates the board with the proper board name
       const boardDiv = document.createElement('div')
       const boardSpan = document.createElement('span')
-      const taskBtn = document.createElement('button')
-      const taskDiv = document.createElement('div')
-      const taskAction = document.createElement('div')
-      const taskInputBtn = document.createElement('button')
-      const taskInput = document.createElement('input')
-      $(taskInputBtn).addClass('ui button')
+      const closeBtn = document.createElement('I')
+
+
+      $(closeBtn).addClass('close link icon')
       $(boardDiv).addClass('board')
-      $(taskAction).addClass('ui action input')
       $(boardSpan).addClass('board_text')
-      $(taskDiv).addClass('task_div')
-      $(taskBtn).addClass('ui button')
-      $(taskBtn).attr('id', 'new_task_btn');
-      taskInput.type = 'text'
-      taskInput.placeholder = 'Task...'
-      taskBtn.innerText = 'New Task'
-      taskInputBtn.innerText = 'Add Task'
+
       boardSpan.innerText = responseData.board
-      taskDiv.appendChild(taskAction)
-      taskAction.appendChild(taskInput)
-      taskAction.appendChild(taskInputBtn)
+
+      boardDiv.appendChild(closeBtn)
       boardDiv.appendChild(boardSpan)
-      boardDiv.appendChild(taskDiv)
-      boardDiv.appendChild(taskBtn)
       container.appendChild(boardDiv)
+
       $(clone).replaceWith(newBoardBtn);
     }).fail(function(_jqXHR, textStatus, errorThrown) {
       console.log(textStatus);
