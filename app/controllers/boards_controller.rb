@@ -21,7 +21,7 @@ class BoardsController < ApplicationController
           end
         format.json do
           if request.xhr?
-            render json: {board: @board.name}
+            render json: {board: @board.name, id: @board.id}
           end
         end
       end
@@ -53,7 +53,7 @@ class BoardsController < ApplicationController
   end
 
   def board_params
-    params.require(:boards).permit(:name)
+    params.require(:boards).permit(:name, :id)
   end
 
 

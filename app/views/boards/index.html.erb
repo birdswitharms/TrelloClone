@@ -17,9 +17,26 @@
     </center>
   </div>
 
+  <div class="board hidden">
+    <i class="close link icon"></i>
+    <span class="board_text">board name</span>
+    <div class="task_list">
+      <div class="ui labeled input ui-state-default">
+
+      </div>
+    </div>
+      <div class="task_div">
+        <div class="ui action input">
+          <%= form_for(:task, url: tasks_path) do |f| %>
+            <input type="text" placeholder="Task..." name="name">
+            <button class="ui button">Add Task</button>
+            <input type="hidden" name="board_id" value="1">
+          <% end %>
+        </div>
+      </div>
+    </div>
 
   <% @all_boards.each do |board| %>
-
     <div class="board">
       <i class="close link icon"></i>
       <span class="board_text"><%= board.name %></span>

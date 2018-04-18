@@ -1,111 +1,107 @@
 document.addEventListener('DOMContentLoaded', function(e) {
 
-const newBoardBtn = document.querySelector('.new_board_btn');
-const boardParent = document.querySelector('#parent_board');
-const container = document.querySelector('.container');
-const boardCancel = document.querySelector('.board_cancel');
-const boardInput = document.querySelector('#board_form');
-const allTaskForms = document.querySelectorAll('.task_div')
-const datePickers = document.querySelectorAll('.form-control')
-const checkboxes = document.querySelectorAll('#task_completed')
-const taskList = document.querySelectorAll('.task_list')
-const boardCloseButtons = document.querySelectorAll('.close')
+  // selectors //
+  const newBoardBtn = document.querySelector('.new_board_btn');
+  const boardParent = document.querySelector('#parent_board');
+  const container = document.querySelector('.container');
+  const boardCancel = document.querySelector('.board_cancel');
+  const boardInput = document.querySelector('#board_form');
+  const allTaskForms = document.querySelectorAll('.task_div')
+  const datePickers = document.querySelectorAll('.form-control')
+  const checkboxes = document.querySelectorAll('#task_completed')
+  const taskList = document.querySelectorAll('.task_list')
+  const boardCloseButtons = document.querySelectorAll('.close')
 
-for (var i = 0; i < boardCloseButtons.length; i++) {
-  boardCloseButtons[i].addEventListener('click', deleteBoard)
-}
-
-function deleteBoard(event) {
-  const boardID = event.path[1].children[3].children[0].firstElementChild[4].value;
-  const board = event.path[1]
-  const areYouSure = confirm('This will delete your board, do you wish to continue?')
-  if (areYouSure === true) {
-    console.log('You deleted the board');
-    $.ajax({
-      url: 'http://localhost:3000/boards/'+boardID,
-      type: 'DELETE',
-    }).done(function(responseData) {
-      $(board).remove();
-    }).fail(function(_jqXHR, textStatus, errorThrown) {
-      console.log(textStatus);
-      console.log(errorThrown);
-    })
-  } else {
-    console.log('You did not delete the board');
+  // event listeners //
+  for (var i = 0; i < boardCloseButtons.length; i++) {
+    boardCloseButtons[i].addEventListener('click', deleteBoard)
   }
 
-}
+  newBoardBtn.addEventListener('submit', createBoard);
+  newBoardBtn.addEventListener('click', createBoard);
 
-// making tasks draggable/droppable
-$(function(event) {
-    $( taskList ).sortable()
-    $( taskList ).disableSelection();
-  });
-
-// calling ajax to check if the task is completed or not
-for (var i = 0; i < checkboxes.length; i++) {
-  checkboxes[i].addEventListener('change', function(event) {
-    event.preventDefault()
-    const checkbox = this.checked
-    const url = event.target.form.action
-    console.log(url);
-    $.ajax({
-      url: url,
-      type: 'PATCH',
-      data: {task: {completed: checkbox}},
-      dataType: 'JSON'
-    }).done(function(responseData) { // setting the task label to green if completed or grey if not completed
-      const label = event.target.parentElement.parentElement.children[4]
-      if (event.target.checked == true) {
-        label.style.backgroundColor = 'Aquamarine'
-      } else {
-        label.style.backgroundColor = '#E8E8E8'
-      }
-    }).fail(function(_jqXHR, textStatus, errorThrown) {
-      console.log(textStatus);
-      console.log(errorThrown);
+  // calling ajax to check if the task is completed or not
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener('change', function(event) {
+      event.preventDefault()
+      const checkbox = this.checked
+      const url = event.target.form.action
+      console.log(url);
+      $.ajax({
+        url: url,
+        type: 'PATCH',
+        data: {task: {completed: checkbox}},
+        dataType: 'JSON'
+      }).done(function(responseData) { // setting the task label to green if completed or grey if not completed
+        const label = event.target.parentElement.parentElement.children[4]
+        if (event.target.checked == true) {
+          label.style.backgroundColor = 'Aquamarine'
+        } else {
+          label.style.backgroundColor = '#E8E8E8'
+        }
+      }).fail(function(_jqXHR, textStatus, errorThrown) {
+        console.log(textStatus);
+        console.log(errorThrown);
+      })
     })
-  })
-  if (checkboxes[i].checked) {
-    const label = checkboxes[i].parentElement.nextElementSibling
-    label.style.backgroundColor = 'Aquamarine'
+    if (checkboxes[i].checked) {
+      const label = checkboxes[i].parentElement.nextElementSibling
+      label.style.backgroundColor = 'Aquamarine'
+    }
   }
-}
 
-// add click event to change deadline placeholder text to html5 date field
-for (var i = 0; i < datePickers.length; i++) {
-  datePickers[i].addEventListener('click', function(event) {
-    this.type = 'date';
-    const currentDate = this.nextElementSibling.value
-    this.value = `${currentDate}`
-  });
-  datePickers[i].addEventListener('change', function(event) {
-    // ajax call once a deadline date has been selected
-    const changedDate = event.target.value
-    const checkbox = event.target.parentElement.parentElement.children[0][4].value;
-    const url = event.target.parentElement.action
-    event.preventDefault()
-    $.ajax({
-      url: url,
-      type: 'PATCH',
-      data: {datepicker: changedDate, task: {completed: checkbox}},
-      dataType: 'JSON'
-    }).done(function(responseData) {
-      // sets the date to the correct date picked
-      const changeDate = Object.keys(responseData)[0]
-      const hiddenForm = event.target.nextElementSibling
-      hiddenForm.value = `${changedDate}`
-    }).fail(function(_jqXHR, textStatus, errorThrown) {
-      console.log(textStatus);
-      console.log(errorThrown);
-    })
-  });
-};
+  // add click event to change deadline placeholder text to html5 date field
+  for (var i = 0; i < datePickers.length; i++) {
+    datePickers[i].addEventListener('click', function(event) {
+      this.type = 'date';
+      const currentDate = this.nextElementSibling.value
+      this.value = `${currentDate}`
+    });
+    datePickers[i].addEventListener('change', function(event) {
+      // ajax call once a deadline date has been selected
+      const changedDate = event.target.value
+      const checkbox = event.target.parentElement.parentElement.children[0][4].value;
+      const url = event.target.parentElement.action
+      event.preventDefault()
+      $.ajax({
+        url: url,
+        type: 'PATCH',
+        data: {datepicker: changedDate, task: {completed: checkbox}},
+        dataType: 'JSON'
+      }).done(function(responseData) {
+        // sets the date to the correct date picked
+        const changeDate = Object.keys(responseData)[0]
+        const hiddenForm = event.target.nextElementSibling
+        hiddenForm.value = `${changedDate}`
+      }).fail(function(_jqXHR, textStatus, errorThrown) {
+        console.log(textStatus);
+        console.log(errorThrown);
+      })
+    });
+  };
 
-for (var i = 0; i < allTaskForms.length; i++) {
-  allTaskForms[i].children[0].children[0].addEventListener('submit', function(event) {
+  for (var i = 0; i < allTaskForms.length; i++) {
+    allTaskForms[i].children[0].children[0].addEventListener('submit', createTask)
+  }
+
+  // functions //
+
+  function cancelBoard() {
+    const thisBoard = this.parentNode.parentNode.parentNode
+    $(thisBoard).replaceWith(newBoardBtn);
+  }
+
+  function createTask(event) {
     event.preventDefault();
-    const form = this
+    console.dir(event);
+    if (event.type == "submit") {
+      var form = this
+      var boardDiv = event.path[3].children[2]
+    } else {
+      var form = event.path[1]
+      var boardDiv = event.path[4].children[2]
+    }
+
     // create ajax call when creating a new task
     $.ajax({
       url: '/tasks',
@@ -113,8 +109,8 @@ for (var i = 0; i < allTaskForms.length; i++) {
       data: $(form).serialize(),
       dataType: 'json'
     }).done(function(responseData) {
+      console.log(responseData);
       const auth_token = form.children[1].value
-      const boardDiv = event.path[3].children[1]
       const parentDiv = document.createElement('div')
       const parentForm = document.createElement('form')
       const utf8 = document.createElement('input')
@@ -155,7 +151,7 @@ for (var i = 0; i < allTaskForms.length; i++) {
       utf8.value = '✓'
 
       $(parentForm).addClass('ui labeled input')
-      $(parentDiv).addClass('ui labeled input ui-state-default')
+      $(parentDiv).addClass('ui labeled input ui-state-default ui-sortable-handle')
       $(checkboxDiv).addClass('ui checkbox')
       $(taskNameDiv).addClass('ui label')
       $(datePicker).addClass('form-control')
@@ -189,17 +185,14 @@ for (var i = 0; i < allTaskForms.length; i++) {
       checkboxDiv.appendChild(checkboxInput)
       checkboxDiv.appendChild(checkbox)
       checkboxDiv.appendChild(emptyLabel)
-
       parentDiv.appendChild(parentForm)
       parentForm.appendChild(utf8)
       parentForm.appendChild(method)
       parentForm.appendChild(auth)
-
       parentForm.appendChild(checkboxDiv)
       parentForm.appendChild(taskNameDiv)
       parentForm.appendChild(datePicker)
       parentForm.appendChild(dateHidden)
-
       boardDiv.appendChild(parentDiv)
 
       checkbox.addEventListener('change', function(event) {
@@ -223,61 +216,70 @@ for (var i = 0; i < allTaskForms.length; i++) {
           console.log(errorThrown);
         })
       })
-
-
     }).fail(function(_jqXHR, textStatus, errorThrown) {
       console.log(textStatus);
       console.log(errorThrown);
     })
-  });
-}
+  }
 
-newBoardBtn.addEventListener('click', createBoard);
-
-function cancelBoard() {
-  const thisBoard = this.parentNode.parentNode.parentNode
-  $(thisBoard).replaceWith(newBoardBtn);
-}
-
-function createBoard() {
-  const clone = $('#parent_board').clone().removeClass( 'hidden' ).removeAttr('id');
-  const cloneInput = clone[0].children[1].children[0]
-  const cloneCancel = clone[0].children[1].firstElementChild.children[4]
-  cloneCancel.addEventListener('click', cancelBoard)
-  $(clone).on('submit', function(event) {
-    event.preventDefault();
-    $.ajax({
-    url: '/boards',
-    type: 'POST',
-    data: $(cloneInput).serialize(),
-    dataType: 'JSON'
-  }).done(function(responseData) {   // ajax request creates the board with the proper board name
-      const boardDiv = document.createElement('div')
-      const boardSpan = document.createElement('span')
-      const closeBtn = document.createElement('I')
-
-
-      $(closeBtn).addClass('close link icon')
-      $(boardDiv).addClass('board')
-      $(boardSpan).addClass('board_text')
-
-      boardSpan.innerText = responseData.board
-
-      boardDiv.appendChild(closeBtn)
-      boardDiv.appendChild(boardSpan)
-      container.appendChild(boardDiv)
-
-      $(clone).replaceWith(newBoardBtn);
-    }).fail(function(_jqXHR, textStatus, errorThrown) {
-      console.log(textStatus);
-      console.log(errorThrown);
+  function createBoard() {
+    const clone = $('#parent_board').clone().removeClass( 'hidden' ).removeAttr('id');
+    const cloneInput = clone[0].children[1].children[0]
+    const cloneCancel = clone[0].children[1].firstElementChild.children[4]
+    cloneCancel.addEventListener('submit', cancelBoard)
+    $(clone).on('submit', function(event) {
+      event.preventDefault();
+      $.ajax({
+      url: '/boards',
+      type: 'POST',
+      data: $(cloneInput).serialize(),
+      dataType: 'JSON'
+    }).done(function(responseData) {   // ajax request creates the board with the proper board name
+        const cloneNode = document.body.children[1].children[2].cloneNode(true)
+        const boardName = cloneNode.children[1]
+        const deleteBoardBtn = cloneNode.children[0]
+        const inputForm = cloneNode.children[3].firstElementChild.firstElementChild
+        const boardIDform = inputForm.children[4]
+        const formButton = inputForm.children[3]
+        $(cloneNode).removeClass('hidden')
+        boardName.innerText = responseData.board
+        boardIDform.value = responseData.id
+        formButton.addEventListener('click', createTask)
+        formButton.addEventListener('submit', createTask)
+        deleteBoardBtn.addEventListener('click', deleteBoard)
+        container.appendChild(cloneNode)
+      }).fail(function(_jqXHR, textStatus, errorThrown) {
+        console.log(textStatus);
+        console.log(errorThrown);
+      });
     });
-  });
-  $('.new_board_btn').replaceWith(clone);
-}
+    $('.new_board_btn').replaceWith(clone);
+    }
 
+    function deleteBoard(event) {
+      const boardID = event.path[1].children[3].children[0].firstElementChild[4].value;
+      const board = event.path[1]
+      const areYouSure = confirm('This will delete your board, do you wish to continue?')
+      if (areYouSure === true) {
+        console.log('You deleted the board');
+        $.ajax({
+          url: 'http://localhost:3000/boards/'+boardID,
+          type: 'DELETE',
+        }).done(function(responseData) {
+          $(board).remove();
+        }).fail(function(_jqXHR, textStatus, errorThrown) {
+          console.log(textStatus);
+          console.log(errorThrown);
+        })
+      } else {
+        console.log('You did not delete the board');
+      }
+    }
 
-
-
+    // making tasks draggable/droppable
+    $(function(event) {
+        $( taskList ).sortable()
+        $( taskList ).disableSelection();
+      });
 
 });
