@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
       const currentDate = this.nextElementSibling.value
       this.value = `${currentDate}`
     });
+
     datePickers[i].addEventListener('change', function(event) {
       // ajax call once a deadline date has been selected
       const changedDate = event.target.value

@@ -12,3 +12,29 @@
 .nav_login {
   float: right;
 }
+
+.task_list .checkbox {
+  margin-top: 9px;
+}
+
+.task_list input[type="text"] {
+  max-width: 160px;
+  padding: 0.658614em 0.658614em;
+}
+
+.task_list input[type="date"] {
+  max-width: 160px;
+}
+
+.task_div input[type="text"] {
+  width: 324px;
+}
+
+input[type="submit"], input[type="text"], input[type="password"] {
+  color: black;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+  border: 1px solid lightgrey;
+  border-radius: 6px;
+}

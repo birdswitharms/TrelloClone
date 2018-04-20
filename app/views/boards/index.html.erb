@@ -56,7 +56,11 @@
           <div class="ui label">
             <%= task.name %>
           </div>
-          <input type="text" name="datepicker" class="form-control" placeholder="Deadline" />
+          <% if task.deadline != nil %>
+          <input type="date" name="datepicker" class="form-control" value="<%= task.deadline.strftime("%Y-%m-%d") %>" />
+          <% else %>
+          <input type="text" name="datepicker" class="form-control" placeholder="Set a deadline" />
+          <% end %>
           <input type="hidden" name="date" value="<%= task.deadline.strftime("%Y-%m-%d") unless task.deadline.nil?  %>">
         </div>
         <% end %>

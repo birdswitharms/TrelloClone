@@ -35,7 +35,7 @@ nav > * {
 }
 
 .board {
-  width: 400px;
+  width: 480px;
   height: 100%;
   padding-bottom: 20px;
   border-radius: 5px;
@@ -54,16 +54,13 @@ nav > * {
 .task_div {
   margin-top: 20px;
   margin-left: 25px;
-  max-width: 400px;
+  max-width: 500px;
 }
 
 .task_div div {
   margin-bottom: 10px;
 }
 
-.task_div input[type="text"] {
-  width: 250px;
-}
 
 .task_list {
   margin-top: 25px;
@@ -77,17 +74,4 @@ nav > * {
 .task_list div .label {
   min-width: 245px;
   max-width: 245px;
-}
-
-.task_list .checkbox {
-  margin-top: 9px;
-}
-
-.task_list input[type="text"] {
-  max-width: 80px;
-  padding: 0.658614em 0.658614em;
-}
-
-.task_list input[type="date"] {
-  max-width: 80px;
 }
