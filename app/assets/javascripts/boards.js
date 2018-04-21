@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
   // functions //
 
   function showTodos() {
-    
+      console.log("add javascript");
   }
 
   function cancelBoard() {
