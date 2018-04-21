@@ -9,10 +9,10 @@
   </head>
 
   <nav>
-    <span class="nav_logo">TrelloClone</span>
+    <span class="nav_logo"><%= link_to("TrelloClone", root_path) %></span>
     <% if current_user %>
     <span class="nav_profile">
-      Welcome <%= current_user.name %>
+      Welcome <%= link_to(current_user.name, user_path(current_user)) %>
       <%= link_to("(Logout)", session_path("current"), method: :delete) %>
     </span>
     <% else %>

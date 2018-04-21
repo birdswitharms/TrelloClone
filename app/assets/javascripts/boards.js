@@ -11,10 +11,15 @@ document.addEventListener('DOMContentLoaded', function(e) {
   const checkboxes = document.querySelectorAll('#task_completed')
   const taskList = document.querySelectorAll('.task_list')
   const boardCloseButtons = document.querySelectorAll('.close')
+  const allLabels = document.querySelectorAll('.label')
 
   // event listeners //
   for (var i = 0; i < boardCloseButtons.length; i++) {
     boardCloseButtons[i].addEventListener('click', deleteBoard)
+  }
+
+  for (var i = 0; i < allLabels.length; i++) {
+    allLabels[i].addEventListener('click', showTodos)
   }
 
   newBoardBtn.addEventListener('submit', createBoard);
@@ -86,6 +91,10 @@ document.addEventListener('DOMContentLoaded', function(e) {
   }
 
   // functions //
+
+  function showTodos() {
+    
+  }
 
   function cancelBoard() {
     const thisBoard = this.parentNode.parentNode.parentNode
@@ -227,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
     const clone = $('#parent_board').clone().removeClass( 'hidden' ).removeAttr('id');
     const cloneInput = clone[0].children[1].children[0]
     const cloneCancel = clone[0].children[1].firstElementChild.children[4]
-    cloneCancel.addEventListener('submit', cancelBoard)
+    cloneCancel.addEventListener('click', cancelBoard)
     $(clone).on('submit', function(event) {
       event.preventDefault();
       $.ajax({
@@ -249,6 +258,10 @@ document.addEventListener('DOMContentLoaded', function(e) {
         formButton.addEventListener('submit', createTask)
         deleteBoardBtn.addEventListener('click', deleteBoard)
         container.appendChild(cloneNode)
+        // -- sets new board button back -- //
+
+        const thisBoard = event.target.parentNode.parentNode
+        $(thisBoard).replaceWith(newBoardBtn);
       }).fail(function(_jqXHR, textStatus, errorThrown) {
         console.log(textStatus);
         console.log(errorThrown);

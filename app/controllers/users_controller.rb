@@ -1,5 +1,12 @@
 class UsersController < ApplicationController
 
+  before_action :load_user, only: [:show]
+
+
+  def show
+    
+  end
+
   def new
     @user = User.new
   end
@@ -20,6 +27,12 @@ class UsersController < ApplicationController
       flash.now[:alert] = @user.errors.full_messages
       redirect_to root_path
     end
+  end
+
+  private
+
+  def load_user
+    @user = current_user
   end
 
 end

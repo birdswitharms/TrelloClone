@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :tasks
   resources :boards
-  resources :users, only: [:new, :create]
+  resources :users, only: [:new, :create, :show]
   resources :sessions, only: [:new, :create, :destroy]
   root 'boards#index'
 
