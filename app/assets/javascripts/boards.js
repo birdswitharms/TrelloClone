@@ -22,8 +22,10 @@ document.addEventListener('DOMContentLoaded', function(e) {
     allLabels[i].addEventListener('click', showTodos)
   }
 
-  newBoardBtn.addEventListener('submit', createBoard);
-  newBoardBtn.addEventListener('click', createBoard);
+  if (newBoardBtn) {
+    newBoardBtn.addEventListener('submit', createBoard);
+    newBoardBtn.addEventListener('click', createBoard);
+  }
 
   // calling ajax to check if the task is completed or not
   for (var i = 0; i < checkboxes.length; i++) {
@@ -31,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function(e) {
       event.preventDefault()
       const checkbox = this.checked
       const url = event.target.form.action
-      console.log(url);
       $.ajax({
         url: url,
         type: 'PATCH',
@@ -93,7 +94,20 @@ document.addEventListener('DOMContentLoaded', function(e) {
   // functions //
 
   function showTodos() {
-      console.log("add javascript");
+    const form = this.parentNode
+    const url = form.action
+    console.log(url);
+    console.log(form);
+    $.ajax({
+      url: url,
+      type: 'GET',
+    }).done(function(responseData) {
+      console.log("it worked?");
+      console.log(responseData);
+    }).fail(function(_jqXHR, textStatus, errorThrown) {
+      console.log(textStatus);
+      console.log(errorThrown);
+    })
   }
 
   function cancelBoard() {
@@ -119,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function(e) {
       data: $(form).serialize(),
       dataType: 'json'
     }).done(function(responseData) {
-      console.log(responseData);
       const auth_token = form.children[1].value
       const parentDiv = document.createElement('div')
       const parentForm = document.createElement('form')

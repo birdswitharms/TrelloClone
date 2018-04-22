@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
 
-  before_action :find_task, only: [:update]
+  before_action :find_task, only: [:update, :index]
+  before_action :find_todos, only: [:index]
 
   def index
 
@@ -55,6 +56,10 @@ class TasksController < ApplicationController
   end
 
   private
+
+  def load_todos
+    @tasks =
+  end
 
   def task_params
     params.require(:tasks).permit(:name, :board_id)
