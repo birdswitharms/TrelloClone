@@ -101,9 +101,22 @@ document.addEventListener('DOMContentLoaded', function(e) {
     $.ajax({
       url: url,
       type: 'GET',
+      dataType: 'JSON',
     }).done(function(responseData) {
-      console.log("it worked?");
       console.log(responseData);
+      const todoContainer = document.createElement('div')
+      const todoSpan = document.createElement('span')
+      $('body').addClass('stop-scrolling')
+      $(todoContainer).addClass('todos_board')
+        $.each(responseData, function(i) {
+          const todoSpan = document.createElement('span')
+          $(todoSpan).addClass('board_text')
+          let name = responseData[i].name
+          let deadline = responseData[i].deadline
+          todoSpan.innerText = name
+          todoContainer.appendChild(todoSpan)
+        });
+      container.appendChild(todoContainer)
     }).fail(function(_jqXHR, textStatus, errorThrown) {
       console.log(textStatus);
       console.log(errorThrown);

@@ -1,10 +1,23 @@
 class TasksController < ApplicationController
 
-  before_action :find_task, only: [:update, :index]
-  before_action :find_todos, only: [:index]
+  before_action :find_task, only: [:update, :index, :show]
+  before_action :find_todos, only: [:show]
 
-  def index
-
+  def show
+    puts @todos
+    respond_to do |format|
+      format.html do
+        puts "responded to html"
+        end
+      format.json do
+        if request.xhr?
+          render json:
+          @todos.each do |todo|
+            {id: todo.id, name: todo.name, deadline: todo.deadline, task: todo.task}
+          end
+        end
+      end
+    end
   end
 
   def new
@@ -57,8 +70,8 @@ class TasksController < ApplicationController
 
   private
 
-  def load_todos
-    @tasks =
+  def find_todos
+    @todos = Todo.all.where(:task_id => @task.id)
   end
 
   def task_params

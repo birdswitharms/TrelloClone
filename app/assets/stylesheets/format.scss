@@ -44,6 +44,25 @@ nav > * {
   box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
 }
 
+.todos_board {
+  width: 480px;
+  height: 50%;
+  padding-bottom: 20px;
+  border-radius: 5px;
+  background-color: #023C40;
+  margin: 25px;
+  box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
+  position: absolute;
+  z-index: 10;
+  top: 20%;
+  float: left;
+}
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
+
 .container {
   display: flex;
   flex-direction: row;
