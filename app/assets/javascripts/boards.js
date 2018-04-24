@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
       const todoContainer = document.createElement('div')
       const todoSpan = document.createElement('span')
       $('body').addClass('stop-scrolling')
+
       $(todoContainer).addClass('todos_board')
         $.each(responseData, function(i) {
           const todoSpan = document.createElement('span')
